@@ -31,5 +31,5 @@ jobs:
         run: |
           ./gradlew install
           cd build/install/projectreport/bin
-          ./projectreport --duration=10000 --max-builds=1000 --api-key=${{ secrets.GE_API_KEY }} --url=${{ secrets.GE_URL }}
+          ./projectreport --max-builds=1000 --api-key=${{ secrets.GE_API_KEY }} --url=${{ secrets.GE_URL }}
 
