@@ -3,6 +3,7 @@ name: Build
 on:
   push:
     branches: [ main]
+
   pull_request:
 concurrency:
   group: build-${{ github.ref }}
@@ -27,9 +28,8 @@ jobs:
           distribution: 'temurin'
           java-version:  ${{ matrix.java }}
 
-      - name: Execute project report
+      - name: Execute Fatbinary
         run: |
-          ./gradlew install
-          cd build/install/projectreport/bin
+          ./gradlew fatBinary
           ./projectreport --max-builds=1000 --api-key=${{ secrets.GE_API_KEY }} --url=${{ secrets.GE_URL }}
 
