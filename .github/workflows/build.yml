@@ -13,7 +13,7 @@ jobs:
   build:
     strategy:
       matrix:
-        java: [11]
+        java: [17]
 
     runs-on: ubuntu-latest
     timeout-minutes: 60
