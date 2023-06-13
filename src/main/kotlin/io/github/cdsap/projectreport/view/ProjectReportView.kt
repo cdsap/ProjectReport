@@ -22,8 +22,7 @@ class ProjectReportView(private val builds: Array<ScanWithAttributes>) {
                     paddingRight = 1
                 }
                 body {
-                    printBuilds(buildsGrouped, this, this@table, filter)
-                    // printProjects(buildsGrouped, this, this@table)
+                    printBuilds(buildsGrouped, this, this@table, filter, "user")
                 }
             })
 
@@ -38,7 +37,23 @@ class ProjectReportView(private val builds: Array<ScanWithAttributes>) {
                     paddingRight = 1
                 }
                 body {
-                    printBuilds(buildsGrouped2, this, this@table, filter)
+                    printBuilds(buildsGrouped2, this, this@table, filter, "project")
+
+                }
+            })
+
+        val buildsGrouped3 = groupBuildsByTasks()
+
+        println(
+            table {
+                cellStyle {
+                    border = true
+                    alignment = TextAlignment.MiddleLeft
+                    paddingLeft = 1
+                    paddingRight = 1
+                }
+                body {
+                    printBuilds(buildsGrouped3, this, this@table, filter, "task")
 
                 }
             })
@@ -79,9 +94,10 @@ class ProjectReportView(private val builds: Array<ScanWithAttributes>) {
         sorted: List<Pair<String, List<ScanWithAttributes>>>,
         tableSectionDsl: TableSectionDsl,
         tableDsl: TableDsl,
-        filter: Filter
+        filter: Filter,
+        type: String
     ) {
-        tableSectionDsl.header("Builds by project in ${filter.url}")
+        tableSectionDsl.header("Builds by $type in ${filter.url}")
         tableSectionDsl.headerTable("Project")
         sorted.toList().sortedBy { (_, value) -> value.size }.toMap()
             .forEach {
@@ -125,9 +141,6 @@ class ProjectReportView(private val builds: Array<ScanWithAttributes>) {
     }
 
     private fun RowDsl.percentiles(it: Map.Entry<String, List<ScanWithAttributes>>) {
-        //     cell(it.value.map { it.buildDuration }.standardDeviation().toInt().toDuration(DurationUnit.MILLISECONDS).toString()) {
-        //         alignment = TextAlignment.MiddleRight
-        //     }
         cell(
             it.value.map { it.buildDuration }.percentile(25.0).toInt().toDuration(DurationUnit.MILLISECONDS).toString()
         ) {

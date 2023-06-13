@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.7.21"
     application
+    id("io.github.cdsap.fatbinary") version "1.0"
 }
 
 group = "org.example"
@@ -14,9 +15,14 @@ repositories {
 application {
     mainClass.set("io.github.cdsap.projectreport.MainKt")
 }
+fatBinary {
+    mainClass = "io.github.cdsap.projectreport.Main"
+    name = "projectreport"
+}
+
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("io.github.cdsap:geapi-data:0.1.3")
+    implementation("io.github.cdsap:geapi-data:0.1.5")
     implementation("com.jakewharton.picnic:picnic:0.6.0")
     implementation("com.github.ajalt.clikt:clikt:3.5.0")
     implementation("org.nield:kotlin-statistics:1.2.1")

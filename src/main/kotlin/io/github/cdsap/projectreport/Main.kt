@@ -14,13 +14,13 @@ import io.github.cdsap.projectreport.report.ProjectReport
 import kotlinx.coroutines.runBlocking
 
 fun main(args: Array<String>) {
-    Fingerprinting().main(args)
+    ProjectReport().main(args)
 }
 
-class Fingerprinting : CliktCommand() {
+class ProjectReport : CliktCommand() {
     private val apiKey: String by option().required()
     private val url by option().required()
-    private val maxBuilds by option().int().default(1000).check("max builds to process 30000") { it <= 30000 }
+    private val maxBuilds by option().int().default(1000).check("max builds to process 100000") { it <= 100000 }
     private val project: String? by option()
     private val tags: List<String> by option().multiple(default = emptyList())
     private val concurrentCalls by option().int().default(150)
