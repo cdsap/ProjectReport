@@ -25,6 +25,7 @@ class ProjectReport : CliktCommand() {
     private val tags: List<String> by option().multiple(default = emptyList())
     private val concurrentCalls by option().int().default(150)
     private val user: String? by option()
+    private val fileJsonOutput: Boolean by option().flag(default = false)
 
     override fun run() {
         val filter = Filter(
@@ -48,7 +49,7 @@ class ProjectReport : CliktCommand() {
         )
 
         runBlocking {
-            ProjectReport(filter, repository).process()
+            ProjectReport(filter, repository,fileJsonOutput).process()
         }
     }
 }

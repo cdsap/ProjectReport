@@ -7,18 +7,20 @@ instance.
 ./projectreport --api-key=$GE_KEY --url=$GE_URL --max-builds=5000
 ```
 
-#### Usage
+#### Using Binary
+Github release latest version contains the Project Report binary. After downloading the binary you can execute:
+```
+./projectreport --api-key=$KEY --url=$URL --max-builds=20000
+```
+Where:
+* `api-key` represents the Gradle Enterprise API token
+* `url` Gradle Enterprise instance
 
-##### Install the binary:
+##### You can build from sources using this repository:
 ```
 ./gradlew install
-```
-
-##### Execute fingerprinting
-```
 cd build/install/projectreport/bin
-./projectreport --api-key=$KEY --url=$URK --max-builds=20000
-
+./projectreport --api-key=$KEY --url=$URL --max-builds=20000
 ```
 
 ##### Output
@@ -78,15 +80,21 @@ Available at the end of the execution
 └────────────────────────────────────────────────────┴────────┴──────┴───────┴─────────────┴────────────┴─────────────┴─────────────┴─────────────┴─────────────┘
 
 ```
+###### Json
+Using the argument `file-json-output` the information will be stored additionally in different files with Json format:
+* builds_by_users.json
+* builds_by_projects.json
+* builds_by_tasks.json
 
 #### Parameters
 
-| Name                   | Description                                  | Default | Required | Example                     |
-|------------------------|----------------------------------------------|---------|----------|-----------------------------|
-| api-key                | String token                                 |         | Yes      | --api-key=$TOKEN_FILE       |
-| url                    | Gradle Enterprise instance                   |         | Yes      | --url=https://ge.acme.dev   |
-| max-builds             | Max builds to be processed                   | 1000    | No       | --max-builds=2000           |
-| project                | Root project in Gradle Enterprise            |         | No       | --project=acme              |
+| Name             | Description                                   | Default | Required | Example                   |
+|------------------|-----------------------------------------------|---------|----------|---------------------------|
+| api-key          | String token                                  |         | Yes      | --api-key=$TOKEN_FILE     |
+| url              | Gradle Enterprise instance                    |         | Yes      | --url=https://ge.acme.dev |
+| max-builds       | Max builds to be processed                    | 1000    | No       | --max-builds=2000         |
+| project          | Root project in Gradle Enterprise             |         | No       | --project=acme            |
+| file-json-output | Generates Json files for each type of metrics | false   | No       | --file-json-output        |
 
 
 #### Compatibility
