@@ -14,7 +14,6 @@ class ProjectReportConsoleOutputView(
         writeConsoleOutput()
     }
 
-
     private fun writeConsoleOutput() {
         println(
             table {
@@ -67,7 +66,7 @@ class ProjectReportConsoleOutputView(
         type: String
     ) {
         tableSectionDsl.header("Builds by $type in ${url}")
-        tableSectionDsl.headerTable("Project")
+        tableSectionDsl.headerTable(sorted.first().type.name)
         sorted.sortedBy { it.builds }.forEach {
             tableDsl.entry(it)
         }

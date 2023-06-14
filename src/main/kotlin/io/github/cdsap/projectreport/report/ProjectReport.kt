@@ -21,10 +21,14 @@ class ProjectReport(
     suspend fun process() {
         val getBuildScans = GetBuildScansWithQueryImpl(repository).get(filter)
         val metrics = convertBuildsToMetrics(getBuildScans)
-
+        println("Generating output")
         ProjectReportConsoleOutputView(metrics.toList(), filter.url).print()
         if (fileJsonOutput) {
+            println("Generating files output")
             ProjectReportJsonOutputView(metrics.toList()).print()
+            println("builds_by_project.json created")
+            println("builds_by_user.json created")
+            println("builds_by_task.json created")
         }
 
     }
