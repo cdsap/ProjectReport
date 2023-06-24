@@ -58,7 +58,7 @@ class ProjectReport(
                     mean = mean.toDuration(DurationUnit.MILLISECONDS),
                     p25 = it.value.map { it.buildDuration }.percentile(25.0).toInt()
                         .toDuration(DurationUnit.MILLISECONDS),
-                    p50 = it.value.map { it.buildDuration }.percentile(55.0).toInt()
+                    p50 = it.value.map { it.buildDuration }.percentile(50.0).toInt()
                         .toDuration(DurationUnit.MILLISECONDS),
                     p75 = it.value.map { it.buildDuration }.percentile(75.0).toInt()
                         .toDuration(DurationUnit.MILLISECONDS),
