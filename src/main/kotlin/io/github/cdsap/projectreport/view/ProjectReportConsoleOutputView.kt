@@ -53,7 +53,7 @@ class ProjectReportConsoleOutputView(
                     paddingRight = 1
                 }
                 body {
-                    printBuilds(metrics.filter { it.type == Type.Task }, this, this@table, "task")
+                    printBuildsTasks(metrics.filter { it.type == Type.Task }, this, this@table, "task")
 
                 }
             })
@@ -65,9 +65,22 @@ class ProjectReportConsoleOutputView(
         tableDsl: TableDsl,
         type: String
     ) {
-        tableSectionDsl.header("Builds by $type in ${url}")
+        tableSectionDsl.header("Top 10 - Builds by $type in ${url}")
         tableSectionDsl.headerTable(sorted.first().type.name)
-        sorted.sortedBy { it.builds }.forEach {
+        sorted.sortedBy { it.builds }.takeLast(10).forEach {
+            tableDsl.entry(it)
+        }
+    }
+
+    private fun printBuildsTasks(
+        sorted: List<Metric>,
+        tableSectionDsl: TableSectionDsl,
+        tableDsl: TableDsl,
+        type: String
+    ) {
+        tableSectionDsl.headerTasks("Top 10 - Builds by $type in ${url}")
+        tableSectionDsl.headerTableTasks(sorted.first().type.name)
+        sorted.sortedBy { it.builds }.takeLast(10).forEach {
             tableDsl.entry(it)
         }
     }
@@ -82,16 +95,32 @@ class ProjectReportConsoleOutputView(
         }
     }
 
+    private fun TableSectionDsl.headerTasks(title: String) {
+        row {
+            cell(title) {
+                columnSpan = 11
+                alignment = TextAlignment.MiddleCenter
+
+            }
+        }
+    }
+
     private fun TableDsl.entry(
         buildsMap: Metric
     ) {
 
         if (buildsMap != null) {
             row {
-                cell(buildsMap.value.take(50))
+                cell(buildsMap.value.take(40))
+                if (buildsMap.type == Type.Task) {
+                    cell(buildsMap.project.take(40)) {
+                        alignment = TextAlignment.MiddleLeft
+                    }
+                }
                 cell(buildsMap.builds) {
                     alignment = TextAlignment.MiddleRight
                 }
+
                 cell(buildsMap.ci) {
                     alignment = TextAlignment.MiddleRight
                 }
@@ -123,6 +152,40 @@ class ProjectReportConsoleOutputView(
 
     private fun TableSectionDsl.headerTable(title: String) = row {
         cell(title)
+        cell("Builds") {
+            alignment = TextAlignment.MiddleCenter
+        }
+        cell("CI") {
+            alignment = TextAlignment.MiddleCenter
+        }
+        cell("Local") {
+            alignment = TextAlignment.MiddleCenter
+        }
+        cell("Mean") {
+            alignment = TextAlignment.MiddleCenter
+        }
+        cell("P25") {
+            alignment = TextAlignment.MiddleCenter
+        }
+        cell("P50") {
+            alignment = TextAlignment.MiddleCenter
+        }
+        cell("P75") {
+            alignment = TextAlignment.MiddleCenter
+        }
+        cell("P90") {
+            alignment = TextAlignment.MiddleCenter
+        }
+        cell("P99") {
+            alignment = TextAlignment.MiddleCenter
+        }
+    }
+
+    private fun TableSectionDsl.headerTableTasks(title: String) = row {
+        cell(title)
+        cell("Project") {
+            alignment = TextAlignment.MiddleCenter
+        }
         cell("Builds") {
             alignment = TextAlignment.MiddleCenter
         }

@@ -18,15 +18,15 @@ class ProjectReportJsonOutputView(
     }
 
     private fun writeFilesOutput() {
-        val fwUsers = FileWriter(File("builds_by_users.json"))
+        val fwUsers = FileWriter(File("project-report-users-${System.currentTimeMillis()}.json"))
         val bwUsers = BufferedWriter(fwUsers)
         Gson().toJson(metrics.filter { it.type == Type.User }, bwUsers)
         bwUsers.close()
-        val fwProjects = FileWriter(File("builds_by_project.json"))
+        val fwProjects = FileWriter(File("project-report-projects-${System.currentTimeMillis()}.json"))
         val bwProjects = BufferedWriter(fwProjects)
         Gson().toJson(metrics.filter { it.type == Type.Project }, bwProjects)
         bwProjects.close()
-        val fwTasks = FileWriter(File("builds_by_tasks.json"))
+        val fwTasks = FileWriter(File("project-report-tasks-${System.currentTimeMillis()}.json"))
         val bwTasks = BufferedWriter(fwTasks)
         Gson().toJson(metrics.filter { it.type == Type.Task }, bwTasks)
         bwTasks.close()

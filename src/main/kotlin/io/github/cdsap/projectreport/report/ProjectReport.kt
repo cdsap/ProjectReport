@@ -7,6 +7,7 @@ import io.github.cdsap.geapi.client.repository.impl.GradleRepositoryImpl
 import io.github.cdsap.projectreport.Metric
 import io.github.cdsap.projectreport.Type
 import io.github.cdsap.projectreport.view.ProjectReportConsoleOutputView
+import io.github.cdsap.projectreport.view.ProjectReportCsvOutputView
 import io.github.cdsap.projectreport.view.ProjectReportJsonOutputView
 import org.nield.kotlinstatistics.percentile
 import kotlin.time.DurationUnit
@@ -23,6 +24,7 @@ class ProjectReport(
         val metrics = convertBuildsToMetrics(getBuildScans)
         println("Generating output")
         ProjectReportConsoleOutputView(metrics.toList(), filter.url).print()
+        ProjectReportCsvOutputView(metrics.toList()).print()
         if (fileJsonOutput) {
             println("Generating files output")
             ProjectReportJsonOutputView(metrics.toList()).print()
@@ -50,6 +52,7 @@ class ProjectReport(
             val mean = it.value.sumOf { it.buildDuration } / it.value.size
             listUsers.add(
                 Metric(
+                    project = if(type == Type.Task) it.value.first().projectName else "",
                     type = type,
                     value = it.key,
                     builds = it.value.size,
