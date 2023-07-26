@@ -13,5 +13,6 @@ data class Metric(
     val p50: Duration,
     val p75: Duration,
     val p90: Duration,
-    val p99: Duration
+    val p99: Duration,
+    val project: String
 )

@@ -23,9 +23,10 @@ class ProjectReport : CliktCommand() {
     private val maxBuilds by option().int().default(1000).check("max builds to process 100000") { it <= 100000 }
     private val project: String? by option()
     private val tags: List<String> by option().multiple(default = emptyList())
-    private val concurrentCalls by option().int().default(150)
+    private val concurrentCalls by option().int().default(250)
     private val user: String? by option()
     private val fileJsonOutput: Boolean by option().flag(default = false)
+    private val sinceBuildId: String? by option()
 
     override fun run() {
         val filter = Filter(
@@ -36,7 +37,8 @@ class ProjectReport : CliktCommand() {
             initFilter = System.currentTimeMillis(),
             user = user,
             concurrentCalls = concurrentCalls,
-            concurrentCallsConservative = 0
+            concurrentCallsConservative = 0,
+            sinceBuildId = sinceBuildId
         )
         val repository = GradleRepositoryImpl(
             GEClient(
