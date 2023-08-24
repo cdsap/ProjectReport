@@ -6,8 +6,7 @@ import io.github.cdsap.projectreport.Type
 
 
 class ProjectReportConsoleOutputView(
-    private val metrics: List<Metric>,
-    private val url: String
+    private val metrics: List<Metric>
 ) {
 
     fun print() {
@@ -65,7 +64,7 @@ class ProjectReportConsoleOutputView(
         tableDsl: TableDsl,
         type: String
     ) {
-        tableSectionDsl.header("Top 10 - Builds by $type in ${url}")
+        tableSectionDsl.header("Top 10 - Builds by $type")
         tableSectionDsl.headerTable(sorted.first().type.name)
         sorted.sortedBy { it.builds }.takeLast(10).forEach {
             tableDsl.entry(it)
@@ -78,7 +77,7 @@ class ProjectReportConsoleOutputView(
         tableDsl: TableDsl,
         type: String
     ) {
-        tableSectionDsl.headerTasks("Top 10 - Builds by $type in ${url}")
+        tableSectionDsl.headerTasks("Top 10 - Builds by $type")
         tableSectionDsl.headerTableTasks(sorted.first().type.name)
         sorted.sortedBy { it.builds }.takeLast(10).forEach {
             tableDsl.entry(it)

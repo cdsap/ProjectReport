@@ -1,6 +1,6 @@
 package io.github.cdsap.projectreport.report
 
-import io.github.cdsap.geapi.client.domain.impl.GetBuildScansWithQueryImpl
+import io.github.cdsap.geapi.client.domain.impl.GetBuildsWithAttributesRequest
 import io.github.cdsap.geapi.client.model.Filter
 import io.github.cdsap.geapi.client.model.ScanWithAttributes
 import io.github.cdsap.geapi.client.repository.impl.GradleRepositoryImpl
@@ -20,10 +20,10 @@ class ProjectReport(
 ) {
 
     suspend fun process() {
-        val getBuildScans = GetBuildScansWithQueryImpl(repository).get(filter)
+        val getBuildScans = GetBuildsWithAttributesRequest(repository).get(filter)
         val metrics = convertBuildsToMetrics(getBuildScans)
         println("Generating output")
-        ProjectReportConsoleOutputView(metrics.toList(), filter.url).print()
+        ProjectReportConsoleOutputView(metrics.toList()).print()
         ProjectReportCsvOutputView(metrics.toList()).print()
         if (fileJsonOutput) {
             println("Generating files output")

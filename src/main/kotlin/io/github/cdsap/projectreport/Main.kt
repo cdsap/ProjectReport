@@ -8,6 +8,7 @@ import io.github.cdsap.geapi.client.repository.impl.GradleRepositoryImpl
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
+import io.github.cdsap.geapi.client.model.ClientType
 import io.github.cdsap.geapi.client.network.ClientConf
 import io.github.cdsap.projectreport.report.ProjectReport
 
@@ -30,15 +31,13 @@ class ProjectReport : CliktCommand() {
 
     override fun run() {
         val filter = Filter(
-            url = url,
             maxBuilds = maxBuilds,
             project = project,
             tags = tags,
-            initFilter = System.currentTimeMillis(),
             user = user,
             concurrentCalls = concurrentCalls,
-            concurrentCallsConservative = 0,
-            sinceBuildId = sinceBuildId
+            sinceBuildId = sinceBuildId,
+            clientType = ClientType.CLI
         )
         val repository = GradleRepositoryImpl(
             GEClient(
