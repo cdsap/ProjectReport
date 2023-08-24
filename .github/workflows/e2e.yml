@@ -23,7 +23,7 @@ jobs:
 
       - name: Prepare a build with nowinandroid
         run: |
-          curl -L https://github.com/cdsap/ProjectReport/releases/download/v.0.4.0/projectreport --output projectreport
+          curl -L https://github.com/cdsap/ProjectReport/releases/download/v.0.4.1/projectreport --output projectreport
           chmod 0757 projectreport
           ./projectreport --max-builds=1000 --api-key=${{ secrets.GE_API_KEY }} --url=${{ secrets.GE_URL }}
 
