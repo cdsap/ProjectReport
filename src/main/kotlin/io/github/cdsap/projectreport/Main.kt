@@ -30,14 +30,11 @@ class ProjectReport : CliktCommand() {
 
     override fun run() {
         val filter = Filter(
-            url = url,
             maxBuilds = maxBuilds,
             project = project,
             tags = tags,
-            initFilter = System.currentTimeMillis(),
             user = user,
             concurrentCalls = concurrentCalls,
-            concurrentCallsConservative = 0,
             sinceBuildId = sinceBuildId
         )
         val repository = GradleRepositoryImpl(
