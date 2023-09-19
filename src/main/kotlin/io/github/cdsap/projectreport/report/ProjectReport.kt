@@ -1,5 +1,6 @@
 package io.github.cdsap.projectreport.report
 
+import io.github.cdsap.geapi.client.domain.impl.GetBuildsFromQueryWithAttributesRequest
 import io.github.cdsap.geapi.client.domain.impl.GetBuildsWithAttributesRequest
 import io.github.cdsap.geapi.client.model.Filter
 import io.github.cdsap.geapi.client.model.ScanWithAttributes
@@ -20,7 +21,7 @@ class ProjectReport(
 ) {
 
     suspend fun process() {
-        val getBuildScans = GetBuildsWithAttributesRequest(repository).get(filter)
+        val getBuildScans = GetBuildsFromQueryWithAttributesRequest(repository).get(filter)
         val metrics = convertBuildsToMetrics(getBuildScans)
         println("Generating output")
         ProjectReportConsoleOutputView(metrics.toList()).print()
