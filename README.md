@@ -10,7 +10,7 @@ instance.
 
 Github release latest version contains the Project Report binary. After downloading the binary you can execute:
 ```
- curl -L https://github.com/cdsap/ProjectReport/releases/download/v.0.4.2/projectreport --output projectreport
+ curl -L https://github.com/cdsap/ProjectReport/releases/download/v.0.4.3/projectreport --output projectreport
  chmod 0757 projectreport
 ./projectreport --api-key=$KEY --url=$URL --max-builds=1000
 ```
