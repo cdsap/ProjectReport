@@ -1,7 +1,6 @@
 package io.github.cdsap.projectreport.report
 
 import io.github.cdsap.geapi.client.domain.impl.GetBuildsFromQueryWithAttributesRequest
-import io.github.cdsap.geapi.client.domain.impl.GetBuildsWithAttributesRequest
 import io.github.cdsap.geapi.client.model.Filter
 import io.github.cdsap.geapi.client.model.ScanWithAttributes
 import io.github.cdsap.geapi.client.repository.impl.GradleRepositoryImpl
@@ -22,18 +21,21 @@ class ProjectReport(
 
     suspend fun process() {
         val getBuildScans = GetBuildsFromQueryWithAttributesRequest(repository).get(filter)
-        val metrics = convertBuildsToMetrics(getBuildScans)
-        println("Generating output")
-        ProjectReportConsoleOutputView(metrics.toList()).print()
-        ProjectReportCsvOutputView(metrics.toList()).print()
-        if (fileJsonOutput) {
-            println("Generating files output")
-            ProjectReportJsonOutputView(metrics.toList()).print()
-            println("builds_by_project.json created")
-            println("builds_by_user.json created")
-            println("builds_by_task.json created")
-        }
+        if (getBuildScans.isNotEmpty()) {
 
+            val metrics = convertBuildsToMetrics(getBuildScans)
+
+            println("Generating output")
+            ProjectReportConsoleOutputView(metrics.toList()).print()
+            ProjectReportCsvOutputView(metrics.toList()).print()
+            if (fileJsonOutput) {
+                println("Generating files output")
+                ProjectReportJsonOutputView(metrics.toList()).print()
+                println("builds_by_project.json created")
+                println("builds_by_user.json created")
+                println("builds_by_task.json created")
+            }
+        }
     }
 
     private fun convertBuildsToMetrics(getBuildScans: List<ScanWithAttributes>): MutableList<Metric> {
@@ -53,7 +55,7 @@ class ProjectReport(
             val mean = it.value.sumOf { it.buildDuration } / it.value.size
             listUsers.add(
                 Metric(
-                    project = if(type == Type.Task) it.value.first().projectName else "",
+                    project = if (type == Type.Task) it.value.first().projectName else "",
                     type = type,
                     value = it.key,
                     builds = it.value.size,

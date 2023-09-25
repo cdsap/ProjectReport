@@ -132,6 +132,8 @@ Using the argument `file-json-output` the information will be stored additionall
 | url              | Gradle Enterprise instance                                                                |         | Yes      | --url=https://ge.acme.dev       |
 | max-builds       | Max builds to be processed                                                                | 1000    | No       | --max-builds=2000               |
 | project          | Root project in Gradle Enterprise                                                         |         | No       | --project=acme                  |
+| tags             | One or more tags included in the build.                                                   |         | No       | --tags=main --tags=not:local    |
+| user             | Author of the build                                                                       |         | No       | --user=leo                      |
 | since-build-id   | Instead getting the last n builds, we can define the starting point to request the builds |         | No       | --since-build-id=3a234rhlfrycbs |
 | file-json-output | Generates Json files for each type of metrics                                             | false   | No       | --file-json-output              |
 

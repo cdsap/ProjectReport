@@ -33,7 +33,7 @@ class ProjectReport : CliktCommand() {
         val filter = Filter(
             maxBuilds = maxBuilds,
             project = project,
-            tags = tags,
+            tags = tags.map { it.replaceFirst("not:","!") },
             user = user,
             concurrentCalls = concurrentCalls,
             sinceBuildId = sinceBuildId,
