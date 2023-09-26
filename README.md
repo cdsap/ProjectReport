@@ -128,7 +128,7 @@ Using the argument `file-json-output` the information will be stored additionall
 
 | Name             | Description                                                                               | Default | Required | Example                         |
 |------------------|-------------------------------------------------------------------------------------------|---------|----------|---------------------------------|
-| api-key          | String token                                                                              |         | Yes      | --api-key=$TOKEN_FILE           |
+| api-key          | String token                                                                              |         | Yes      | --api-key=$GE_KEY               |
 | url              | Gradle Enterprise instance                                                                |         | Yes      | --url=https://ge.acme.dev       |
 | max-builds       | Max builds to be processed                                                                | 1000    | No       | --max-builds=2000               |
 | project          | Root project in Gradle Enterprise                                                         |         | No       | --project=acme                  |
