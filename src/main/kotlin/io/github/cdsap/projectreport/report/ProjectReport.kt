@@ -20,6 +20,7 @@ class ProjectReport(
 ) {
 
     suspend fun process() {
+        val duration = System.currentTimeMillis().toDuration(DurationUnit.MILLISECONDS)
         val getBuildScans = GetBuildsFromQueryWithAttributesRequest(repository).get(filter)
         if (getBuildScans.isNotEmpty()) {
 
@@ -28,8 +29,10 @@ class ProjectReport(
             println("Generating output")
             ProjectReportConsoleOutputView(metrics.toList()).print()
             ProjectReportCsvOutputView(metrics.toList()).print()
+            val totalDuration = System.currentTimeMillis().toDuration(DurationUnit.MILLISECONDS) - duration
+            println("Duration Project Report: $totalDuration")
             if (fileJsonOutput) {
-                println("Generating files output")
+                println("Generating json files output")
                 ProjectReportJsonOutputView(metrics.toList()).print()
                 println("builds_by_project.json created")
                 println("builds_by_user.json created")
@@ -90,8 +93,8 @@ class ProjectReport(
 
     private fun groupBuildsByTasks(builds: List<ScanWithAttributes>) = builds
         .groupBy {
-            it.requestedTasksGoals.joinToString(" ")
-        }.map { it.key to it.value }
+            Pair(it.requestedTasksGoals.joinToString(" "), it.projectName)
+        }.map { it.key.first to it.value }
 
 
 }
